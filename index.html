@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News.ai</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            background-color: black;
+            position: sticky;
+            top: 0px;
+            color: white;
+            z-index: 100;
+        }
+        section {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .card {
+            width: 16rem;
+            height: 28rem;
+            margin: 1rem;
+            text-align: left;
+            border-radius: 1rem;
+            position: relative;
+        }
+        .card:hover {
+            box-shadow: 1rem 1rem 1rem black;
+            transform: translateY(6px);
+        }
+        img {
+            width: 100%;
+            height: 60%;
+        }
+        button {
+            width: 6rem;
+            height: 2rem;
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            color: white;
+            background-color: black;
+            border-top-left-radius: 1.4rem;
+        }
+        a {
+            color: white;
+        }
+        a:hover {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>News.ai</h1>
+    </header>
+    <section>
+        
+    </section>
+    <script>
+        let get = async()=> {
+            let data = await fetch("https://newsapi.org/v2/everything?q=apple&from=2022-12-07&to=2022-12-07&sortBy=popularity&apiKey=40a6b1b47bea405782a79b67d2786b05");
+            let parseData = await data.json();
+            let arr = parseData.articles;
+            let str = "";
+            arr.map( (item)=> {
+                str +=  `<div class="card">
+                        <img src="${item.urlToImage}" alt="">
+                        <p>
+                          <strong>${item.description}</strong>
+                        </p>
+                        <button><a href="${item.url}" style="text-decoration: none;">Know More</a></button>
+                        </div>`})
+            document.querySelector("section").innerHTML = str
+         }
+        get();
+
+    </script>
+</body>
+</html>

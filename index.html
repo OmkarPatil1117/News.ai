@@ -89,14 +89,14 @@
         let get = async(category)=> {
             document.querySelector("section").innerHTML = `<img id="laoding" src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif" alt="gif">`
             let key = "40a6b1b47bea405782a79b67d2786b05";
-            let data = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category === ""? "general" : category}&apiKey=${key}`);
+            let data = await fetch(`https://newsapi.org/v2/top-headlines?country=in&category=${category? category : "business"}&apiKey=${key}`);
             let parseData = await data.json();
             document.querySelector("section").innerHTML = "";
             let arr = parseData.articles;
             let str = "";
             arr.map( (item)=> {
                 str +=  `<div class="card">
-                        <img id="im" src="${item.urlToImage}" alt="">
+                        <img id="im" src=${item.urlToImage? item.urlToImage : "https://techcrunch.com/wp-content/uploads/2021/07/GettyImages-1207206237.jpg?w=1024" } alt="">
                         <p>
                           <strong>${item.description}</strong>
                         </p>
@@ -104,7 +104,7 @@
                         </div>`})
             document.querySelector("section").innerHTML = str
          }
-         get("");
+         get();
        </script>
 </body>
 </html>

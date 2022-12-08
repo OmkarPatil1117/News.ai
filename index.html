@@ -11,7 +11,7 @@
             margin: 0px;
             padding: 0px;
         }
-        header {
+        nav {
             display: flex;
             justify-content: center;
             background-color: black;
@@ -19,6 +19,7 @@
             top: 0px;
             color: white;
             z-index: 100;
+            margin-bottom: 2rem;
         }
         section {
             display: flex;
@@ -33,11 +34,16 @@
             border-radius: 1rem;
             position: relative;
         }
+        ul {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+        }
         .card:hover {
             box-shadow: 1rem 1rem 1rem black;
             transform: translateY(6px);
         }
-        img {
+        #im {
             width: 100%;
             height: 60%;
         }
@@ -57,24 +63,40 @@
         a:hover {
             color: green;
         }
+        #laoding {
+            margin: auto;
+            height: 4rem;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>News.ai</h1>
-    </header>
+    <nav>
+        <strong>News.ai</strong>
+        <ul style="list-style: none;">
+            <li onclick="get(`technology`)">Technology</li>
+            <li onclick="get(`sports`)">Sports</li>
+            <li onclick="get(`business`)">Business</li>
+            <li onclick="get(`science`)"> Science</li>
+            <li onclick="get(`entertainment`)">entertainment</li>
+            <li onclick="get(`general`)">genaral</li>
+            <li onclick="get(`health`)">Health</li>
+        </ul>
+    </nav>
     <section>
-        
+
     </section>
     <script>
-        let get = async()=> {
-            let data = await fetch("https://newsapi.org/v2/everything?q=apple&from=2022-12-07&to=2022-12-07&sortBy=popularity&apiKey=40a6b1b47bea405782a79b67d2786b05");
+        let get = async(category)=> {
+            document.querySelector("section").innerHTML = `<img id="laoding" src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif" alt="gif">`
+            let key = "40a6b1b47bea405782a79b67d2786b05";
+            let data = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category === ""? "general" : category}&apiKey=${key}`);
             let parseData = await data.json();
+            document.querySelector("section").innerHTML = "";
             let arr = parseData.articles;
             let str = "";
             arr.map( (item)=> {
                 str +=  `<div class="card">
-                        <img src="${item.urlToImage}" alt="">
+                        <img id="im" src="${item.urlToImage}" alt="">
                         <p>
                           <strong>${item.description}</strong>
                         </p>
@@ -82,8 +104,7 @@
                         </div>`})
             document.querySelector("section").innerHTML = str
          }
-        get();
-
-    </script>
+         get("");
+       </script>
 </body>
 </html>
